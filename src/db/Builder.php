@@ -349,6 +349,12 @@ abstract class Builder
     {
         $where = [];
         foreach ($val as $value) {
+
+            if($value[0] == '__string'){
+                $where[] = $logic.' '.$value[1];
+                continue;
+            }
+
             if ($value instanceof Raw) {
                 $where[] = ' ' . $logic . ' ( ' . $this->parseRaw($query, $value) . ' )';
                 continue;

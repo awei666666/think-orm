@@ -461,7 +461,8 @@ trait WhereQuery
                 if ($val instanceof Raw) {
                     $where[] = [$key, 'exp', $val];
                 } else {
-                    $where[] = is_null($val) ? [$key, 'NULL', ''] : [$key, is_array($val) ? 'IN' : '=', $val];
+                    $where[] = $this->formatWhereField($key, $val);
+                    // $where[] = is_null($val) ? [$key, 'NULL', ''] : [$key, is_array($val) ? 'IN' : '=', $val];
                 }
             }
         } else {
@@ -475,6 +476,26 @@ trait WhereQuery
         }
 
         return $this;
+    }
+    
+    /**
+     * 整理需要的数据，增加 __string
+     *
+     * @param string $key
+     * @param array|string $val
+     * @return array
+     */
+    public function formatWhereField($key, $val)
+    {
+        if(is_null($val)){
+            return [$key, 'NULL', ''];
+        }else if(is_array($val)){
+            return [$key, $val[0], $val[1]];
+        }else if($key == '__string'){
+            return [$key, $val];
+        }else{
+            return [$key, '=', $val];
+        }
     }
 
     /**

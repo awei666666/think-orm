@@ -1121,11 +1121,13 @@ abstract class BaseQuery
             $this->parsePkWhere($data);
         }
 
-        if (empty($this->options['where']) && empty($this->options['order'])) {
-            $result = [];
-        } else {
-            $result = $this->connection->find($this);
-        }
+        // if (empty($this->options['where']) && empty($this->options['order'])) {
+        //     $result = [];
+        // } else {
+        //     $result = $this->connection->find($this);
+        // }
+
+        $result = $this->connection->find($this);
 
         // 数据处理
         if (empty($result)) {

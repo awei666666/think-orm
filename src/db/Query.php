@@ -25,6 +25,36 @@ class Query extends BaseQuery
     use concern\TableFieldInfo;
 
     /**
+     * 把查询的数据转化为数组
+     *
+     * @return array|Model|null
+     */
+    public function selectToArray()
+    {
+        return $this->select()->toArray();
+    }
+
+    /**
+     * 把查询的单条数据转换为数组
+     *
+     * @return array|Model|null
+     */
+    public function findToArray()
+    {
+        return $this->array($this->find());
+    }
+
+    /**
+     * 把数据转换为数组
+     *
+     * @param obj $val
+     * @return array
+     */
+    function array($val) {
+        return json_decode(json_encode($val), true);
+    }
+
+    /**
      * 表达式方式指定Field排序
      * @access public
      * @param string $field 排序字段
@@ -403,7 +433,7 @@ class Query extends BaseQuery
     public function chunk(int $count, callable $callback, $column = null, string $order = 'asc'): bool
     {
         $options = $this->getOptions();
-        $column  = $column ?: $this->getPk();
+        $column = $column ?: $this->getPk();
 
         if (isset($options['order'])) {
             unset($options['order']);
@@ -435,7 +465,7 @@ class Query extends BaseQuery
                 $times++;
                 $query = $this->options($options)->page($times, $count);
             } else {
-                $end    = $resultSet->pop();
+                $end = $resultSet->pop();
                 $lastId = is_array($end) ? $end[$key] : $end->getData($key);
 
                 $query = $this->options($options)
