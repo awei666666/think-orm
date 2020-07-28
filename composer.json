@@ -6,7 +6,7 @@
         "database"
     ],      
     "license": "Apache-2.0",
-    "minimum-stability": "dev",
+    "minimum-stability": "dev-bugfix",
     "authors": [
         {
             "name": "liu21st",
